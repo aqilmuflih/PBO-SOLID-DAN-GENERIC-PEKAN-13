@@ -1,0 +1,33 @@
+class ScoreCalculator {
+    public double computeFinalScore(double assignment, double midterm, double finalExam) {
+        return (assignment * 0.3) + (midterm * 0.3) + (finalExam * 0.4);
+    }
+}
+
+class ReportViewer {
+    public void printReport(String studentName, double finalScore) {
+        System.out.println("=== Rekap Nilai ===");
+        System.out.println("Mahasiswa : " + studentName);
+        System.out.println("Skor Akhir: " + finalScore);
+    }
+}
+
+class ScoreStorage {
+    public void saveToDatabase(String studentName, double finalScore) {
+        System.out.println("[DB] Data (" + studentName + " : " + finalScore + ") berhasil disimpan.");
+    }
+}
+
+public class Latihan2 {
+    public static void main(String[] args) {
+        String student = "Raka Pratama";
+
+        ScoreCalculator calculator = new ScoreCalculator();
+        ReportViewer viewer = new ReportViewer();
+        ScoreStorage storage = new ScoreStorage();
+
+        double result = calculator.computeFinalScore(88, 82, 94);
+        viewer.printReport(student, result);
+        storage.saveToDatabase(student, result);
+    }
+}

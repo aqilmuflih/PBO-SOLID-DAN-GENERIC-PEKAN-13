@@ -1,0 +1,31 @@
+class DataBox<T> {
+    private T content;
+
+    public void put(T content) {
+        this.content = content;
+    }
+
+    public T get() {
+        return content;
+    }
+
+    public void displayType() {
+        if (content != null) {
+            System.out.println("Value: " + content + " | Class Type: " + content.getClass().getName());
+        } else {
+            System.out.println("Value kosong (null)");
+        }
+    }
+}
+
+public class HandsOn3 {
+    public static void main(String[] args) {
+        DataBox<Integer> numberBox = new DataBox<>();
+        numberBox.put(404);
+        numberBox.displayType();
+
+        DataBox<String> textBox = new DataBox<>();
+        textBox.put("Struktur Data & PBO");
+        textBox.displayType();
+    }
+}

@@ -1,0 +1,41 @@
+class Tuple<K, V> {
+    private final K first;
+    private final V second;
+
+    public Tuple(K first, V second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    public void showTypes() {
+        System.out.println("Data: [" + first + ", " + second + "] -> Tipe: " +
+                first.getClass().getSimpleName() + " & " +
+                second.getClass().getSimpleName());
+    }
+
+    public Tuple<V, K> swap() {
+        return new Tuple<>(second, first);
+    }
+}
+
+public class HandsOn4 {
+    public static void main(String[] args) {
+        Tuple<Integer, String> dataMahasiswa = new Tuple<>(2055, "Nadia Putri");
+        System.out.print("Awal  : ");
+        dataMahasiswa.showTypes();
+
+        Tuple<String, Integer> tukarMahasiswa = dataMahasiswa.swap();
+        System.out.print("Tukar : ");
+        tukarMahasiswa.showTypes();
+
+        System.out.println("-------------------------------------------------");
+
+        Tuple<Double, Boolean> statusKelulusan = new Tuple<>(89.75, true);
+        System.out.print("Awal  : ");
+        statusKelulusan.showTypes();
+
+        Tuple<Boolean, Double> tukarStatus = statusKelulusan.swap();
+        System.out.print("Tukar : ");
+        tukarStatus.showTypes();
+    }
+}

@@ -1,0 +1,43 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class HandsOn6 {
+    public static void main(String[] args) {
+        Path sourceFile = Paths.get("employees.txt");
+        Path destinationFile = Paths.get("copy_employees.txt");
+        ArrayList<String> staffRecords = new ArrayList<>();
+
+        try {
+            if (!Files.exists(sourceFile)) {
+                System.out.println("[Notifikasi] File '" + sourceFile + "' belum tersedia. Membuat data awal...");
+                Files.write(sourceFile, List.of(
+                        "STF-201 : Reza Mahendra (System Analyst)",
+                        "STF-202 : Tiara Ramadhani (Product Manager)",
+                        "STF-203 : Gilang Permana (DevOps Engineer)"
+                ), StandardCharsets.UTF_8);
+            }
+
+            try (BufferedReader reader = Files.newBufferedReader(sourceFile, StandardCharsets.UTF_8)) {
+                String currentLine;
+                while ((currentLine = reader.readLine()) != null) {
+                    staffRecords.add(currentLine);
+                }
+            }
+
+            System.out.println("\nHasil pembacaan file ke ArrayList:");
+            for (String record : staffRecords) {
+                System.out.println("> " + record);
+            }
+
+            Files.write(destinationFile, staffRecords, StandardCharsets.UTF_8);
+            System.out.println("\nData sukses disalin ke file: " + destinationFile);
+
+        } catch (IOException ex) {
+            System.out.println("Gagal memproses berkas: " + ex.getMessage());
+        }
+    }
+}

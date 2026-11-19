@@ -1,0 +1,34 @@
+enum BankAccountCategory {
+    SAVINGS, CREDIT, DEPOSIT;
+
+    @Override
+    public String toString() {
+        return switch (this) {
+            case SAVINGS -> "SAVINGS : Rekening Tabungan Harian";
+            case CREDIT -> "CREDIT  : Rekening Fasilitas Pinjaman";
+            case DEPOSIT -> "DEPOSIT : Rekening Simpanan Berjangka";
+        };
+    }
+}
+
+class BankAccount {
+    private final BankAccountCategory category;
+
+    public BankAccount(BankAccountCategory category) {
+        this.category = category;
+    }
+
+    public BankAccountCategory getCategory() {
+        return category;
+    }
+}
+
+public class HandsOn1 {
+    public static void main(String[] args) {
+        System.out.println("=== Kategori Rekening Perbankan ===");
+        for (BankAccountCategory item : BankAccountCategory.values()) {
+            BankAccount acc = new BankAccount(item);
+            System.out.println(acc.getCategory());
+        }
+    }
+}

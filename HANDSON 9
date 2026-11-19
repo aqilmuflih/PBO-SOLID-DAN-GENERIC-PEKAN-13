@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+    String fullName;
+    int age;
+
+    Employee(String fullName, int age) {
+        this.fullName = fullName;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee [Nama = " + fullName + ", Umur = " + age + " tahun]";
+    }
+}
+
+public class HandsOn9 {
+    public static void serialize(List<Employee> staffList, String path) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path))) {
+            out.writeObject(staffList);
+            System.out.println("Berhasil menyimpan " + staffList.size() + " objek ke file " + path);
+        } catch (IOException e) {
+            System.out.println("Gagal serialize: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Employee> deserialize(String path) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path))) {
+            return (List<Employee>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Gagal deserialize: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        String binaryFile = "staff_data.ser";
+
+        List<Employee> staff = new ArrayList<>();
+        staff.add(new Employee("Raka Pratama", 25));
+        staff.add(new Employee("Nadia Putri", 22));
+        staff.add(new Employee("Bagas Saputra", 28));
+
+        serialize(staff, binaryFile);
+
+        List<Employee> loadedStaff = deserialize(binaryFile);
+        if (loadedStaff != null) {
+            System.out.println("\nHasil Pembacaan Objek (Deserialization):");
+            for (Employee emp : loadedStaff) {
+                System.out.println(emp);
+            }
+        }
+    }
+}

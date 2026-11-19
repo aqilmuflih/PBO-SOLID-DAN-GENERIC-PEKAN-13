@@ -1,0 +1,93 @@
+interface TransportUnit {
+    void move();
+}
+
+interface EngineStartable {
+    void igniteEngine();
+}
+
+interface FuelTankable {
+    void refillFuel();
+}
+
+interface BatteryRechargeable {
+    void rechargeBattery();
+}
+
+class GasolineCar implements TransportUnit, EngineStartable, FuelTankable {
+    @Override
+    public void move() {
+        System.out.println("Mobil bensin melaju di jalan tol.");
+    }
+
+    @Override
+    public void igniteEngine() {
+        System.out.println("Menyalakan mesin bensin...");
+    }
+
+    @Override
+    public void refillFuel() {
+        System.out.println("Mengisi Pertamax di SPBU...");
+    }
+}
+
+class ElectricCar implements TransportUnit, EngineStartable, BatteryRechargeable {
+    @Override
+    public void move() {
+        System.out.println("Mobil listrik melaju tanpa emisi.");
+    }
+
+    @Override
+    public void igniteEngine() {
+        System.out.println("Mengaktifkan motor penggerak listrik...");
+    }
+
+    @Override
+    public void rechargeBattery() {
+        System.out.println("Mengisi daya baterai di stasiun fast-charging...");
+    }
+}
+
+class Bicycle implements TransportUnit {
+    @Override
+    public void move() {
+        System.out.println("Sepeda dikayuh melintasi jalur hijau.");
+    }
+}
+
+class ElectricBike implements TransportUnit, BatteryRechargeable {
+    @Override
+    public void move() {
+        System.out.println("Sepeda listrik melaju dengan bantuan motor baterai.");
+    }
+
+    @Override
+    public void rechargeBattery() {
+        System.out.println("Mengisi daya baterai sepeda listrik di stopkontak rumah...");
+    }
+}
+
+public class Latihan3 {
+    public static void main(String[] args) {
+        System.out.println("--- Uji Mobil Listrik ---");
+        ElectricCar ev = new ElectricCar();
+        ev.igniteEngine();
+        ev.rechargeBattery();
+        ev.move();
+
+        System.out.println("\n--- Uji Mobil Bensin ---");
+        GasolineCar sedan = new GasolineCar();
+        sedan.igniteEngine();
+        sedan.refillFuel();
+        sedan.move();
+
+        System.out.println("\n--- Uji Sepeda Kayuh ---");
+        Bicycle bike = new Bicycle();
+        bike.move();
+
+        System.out.println("\n--- Uji Sepeda Listrik (Ekstensi OCP) ---");
+        ElectricBike eBike = new ElectricBike();
+        eBike.rechargeBattery();
+        eBike.move();
+    }
+}

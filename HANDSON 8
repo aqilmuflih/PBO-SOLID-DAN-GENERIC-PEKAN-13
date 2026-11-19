@@ -1,0 +1,35 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class HandsOn8 {
+    public static void main(String[] args) {
+        Path targetFile = Paths.get("user_input.txt");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        try (Scanner scanner = new Scanner(System.in);
+             BufferedWriter writer = Files.newBufferedWriter(targetFile)) {
+
+            System.out.println("Ketik catatan Anda (ketik 'exit' untuk menyimpan & keluar):");
+            while (true) {
+                System.out.print("Teks >> ");
+                String line = scanner.nextLine();
+
+                if ("exit".equalsIgnoreCase(line.trim())) {
+                    break;
+                }
+
+                String timeTag = LocalDateTime.now().format(fmt);
+                writer.write("[" + timeTag + "] " + line);
+                writer.newLine();
+            }
+            System.out.println("Seluruh catatan berhasil disimpan ke " + targetFile);
+
+        } catch (IOException e) {
+            System.out.println("Gagal menulis input: " + e.getMessage());
+        }
+    }
+}

@@ -1,0 +1,59 @@
+interface MessageSender {
+    void deliver(String content);
+}
+
+class EmailSender implements MessageSender {
+    @Override
+    public void deliver(String content) {
+        System.out.println("[EMAIL] Terkirim: " + content);
+    }
+}
+
+class SmsSender implements MessageSender {
+    @Override
+    public void deliver(String content) {
+        System.out.println("[SMS] Terkirim: " + content);
+    }
+}
+
+class WhatsAppSender implements MessageSender {
+    @Override
+    public void deliver(String content) {
+        System.out.println("[WHATSAPP] Terkirim: " + content);
+    }
+}
+
+class PushNotifSender implements MessageSender {
+    @Override
+    public void deliver(String content) {
+        System.out.println("[PUSH NOTIF] Terkirim: " + content);
+    }
+}
+
+class AlertDispatcher {
+    private final MessageSender sender;
+
+    public AlertDispatcher(MessageSender sender) {
+        this.sender = sender;
+    }
+
+    public void broadcast(String content) {
+        sender.deliver(content);
+    }
+}
+
+public class Latihan1 {
+    public static void main(String[] args) {
+        AlertDispatcher emailAlert = new AlertDispatcher(new EmailSender());
+        emailAlert.broadcast("Jadwal KRS semester baru telah dibuka.");
+
+        AlertDispatcher smsAlert = new AlertDispatcher(new SmsSender());
+        smsAlert.broadcast("Kode OTP login Anda adalah 849201.");
+
+        AlertDispatcher waAlert = new AlertDispatcher(new WhatsAppSender());
+        waAlert.broadcast("Pengingat: Praktikum PBO dimulai pukul 13.00 WITA.");
+
+        AlertDispatcher pushAlert = new AlertDispatcher(new PushNotifSender());
+        pushAlert.broadcast("Pembaruan aplikasi berhasil diterapkan!");
+    }
+}

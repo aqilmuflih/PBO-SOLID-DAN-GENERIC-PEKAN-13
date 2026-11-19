@@ -1,0 +1,39 @@
+import java.io.IOException;
+import java.nio.file.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+public class HandsOn7 {
+    public static void main(String[] args) {
+        Path reportPath = Paths.get("report.txt");
+        Path backupPath = Paths.get("backup/report.txt");
+        Path logPath = Paths.get("log.txt");
+        DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        try {
+            Files.write(reportPath, List.of("System Audit Report", "Condition: HEALTHY"));
+
+            if (Files.exists(reportPath)) {
+                if (Files.notExists(backupPath.getParent())) {
+                    Files.createDirectories(backupPath.getParent());
+                }
+                Files.copy(reportPath, backupPath, StandardCopyOption.REPLACE_EXISTING);
+
+                String logText = "[" + LocalDateTime.now().format(timeFmt) + "] OK: '" +
+                        reportPath + "' dicadangkan ke '" + backupPath + "'" + System.lineSeparator();
+                Files.writeString(logPath, logText, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+
+                System.out.println("Proses backup selesai!");
+                System.out.println("Catatan log: " + logText.trim());
+            } else {
+                String logText = "[" + LocalDateTime.now().format(timeFmt) + "] ERROR: '" +
+                        reportPath + "' tidak ditemukan." + System.lineSeparator();
+                Files.writeString(logPath, logText, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                System.out.println("Proses backup gagal karena file tidak ada.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

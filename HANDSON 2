@@ -1,0 +1,31 @@
+enum BankAccountCategoryDetail {
+    SAVINGS("SAV-01", 3.0),
+    CREDIT("CRD-02", 11.5),
+    DEPOSIT("DEP-03", 5.75);
+
+    private final String accountCode;
+    private final double interestRate;
+
+    BankAccountCategoryDetail(String accountCode, double interestRate) {
+        this.accountCode = accountCode;
+        this.interestRate = interestRate;
+    }
+
+    public String getAccountCode() {
+        return accountCode;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+}
+
+public class HandsOn2 {
+    public static void main(String[] args) {
+        System.out.println("=== Daftar Kode dan Bunga Rekening ===");
+        for (BankAccountCategoryDetail cat : BankAccountCategoryDetail.values()) {
+            System.out.printf("Jenis: %-8s | Kode: %s | Bunga: %.2f%%%n",
+                    cat.name(), cat.getAccountCode(), cat.getInterestRate());
+        }
+    }
+}

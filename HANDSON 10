@@ -1,0 +1,67 @@
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
+
+class CatalogItem<A, B, C> {
+    private final A primaryField;
+    private final B secondaryField;
+    private final C stockField;
+
+    public CatalogItem(A primaryField, B secondaryField, C stockField) {
+        this.primaryField = primaryField;
+        this.secondaryField = secondaryField;
+        this.stockField = stockField;
+    }
+
+    @Override
+    public String toString() {
+        return primaryField + "," + secondaryField + "," + stockField;
+    }
+}
+
+public class HandsOn10 {
+    public static void main(String[] args) {
+        List<CatalogItem<String, Double, Integer>> items = new ArrayList<>();
+        items.add(new CatalogItem<>("Monitor LED", 2450000.0, 15));
+        items.add(new CatalogItem<>("Webcam HD", 420000.0, 32));
+        items.add(new CatalogItem<>("Headset Gaming", 680000.0, 20));
+
+        Path itemPath = Paths.get("produk_output.txt");
+
+        List<CatalogItem<String, Double, String>> transactions = new ArrayList<>();
+        transactions.add(new CatalogItem<>("INV-2026-01", 2870000.0, "PAID"));
+        transactions.add(new CatalogItem<>("INV-2026-02", 680000.0, "WAITING"));
+
+        Path trxPath = Paths.get("transaksi_output.txt");
+
+        try {
+            writeRecords(itemPath, items);
+            readAndPrint(itemPath, "KATALOG PRODUK");
+
+            System.out.println("========================================");
+
+            writeRecords(trxPath, transactions);
+            readAndPrint(trxPath, "RIWAYAT TRANSAKSI");
+
+        } catch (IOException e) {
+            System.out.println("Error operasi NIO.2: " + e.getMessage());
+        }
+    }
+
+    public static <A, B, C> void writeRecords(Path path, List<CatalogItem<A, B, C>> list) throws IOException {
+        List<String> rows = new ArrayList<>();
+        for (CatalogItem<A, B, C> entry : list) {
+            rows.add(entry.toString());
+        }
+        Files.write(path, rows);
+    }
+
+    public static void readAndPrint(Path path, String title) throws IOException {
+        System.out.println("=== " + title + " (" + path + ") ===");
+        List<String> content = Files.readAllLines(path);
+        for (String line : content) {
+            System.out.println(line);
+        }
+    }
+}

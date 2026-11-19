@@ -1,0 +1,14 @@
+public class HandsOn5 {
+    public static <T extends Comparable<T>> boolean checkSame(T x, T y) {
+        return x.compareTo(y) == 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Uji Integer (10, 10)      : " + checkSame(10, 10));
+        System.out.println("Uji String (Java, Kotlin) : " + checkSame("Java", "Kotlin"));
+        System.out.println("Uji Double (7.25, 7.25)   : " + checkSame(7.25, 7.25));
+        System.out.println("Uji Double (4.5, 9.0)     : " + checkSame(4.5, 9.0));
+        System.out.println("Uji Character ('K', 'K')  : " + checkSame('K', 'K'));
+        System.out.println("Uji Character ('X', 'Y')  : " + checkSame('X', 'Y'));
+    }
+}
